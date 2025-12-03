@@ -1,7 +1,5 @@
 # ImAnim
 
-![Hero](imgs/ImAnim_Hero.gif)
-
 **Animation Engine for [Dear ImGui](https://github.com/ocornut/imgui)**
 
 ImAnim brings modern animation capabilities to ImGui applications. Write smooth, UI animations with minimal code.
@@ -113,22 +111,6 @@ The `demo/` folder contains a comprehensive demo showcasing all features:
 - Spring physics playground
 - All animation types with live controls
 - Performance benchmarks
-
-## Showcase
-
-<table>
-<tr>
-<tr>
-<td><img src="imgs/ImAnim_List.gif" alt="List Stagger"/><br><strong>List Stagger</strong></td>
-<td><img src="imgs/ImAnim_Grid.gif" alt="Grid Stagger"/><br><strong>Grid Stagger</strong></td>
-<td><img src="imgs/ImAnim_Card.gif" alt="Card Animation"/><br><strong>Card Animation</strong></td>
-</tr>
-<td><img src="imgs/ImAnim_Color.gif" alt="Color Blending"/><br><strong>Color Blending</strong></td>
-<td><img src="imgs/ImAnim_WaveColor.gif" alt="Wave Color"/><br><strong>Wave Color</strong></td>
-<td><img src="imgs/ImAnim_Gradient.gif" alt="Gradient"/><br><strong>Gradient</strong></td>
-</tr>
-</table>
-<img src="imgs/ImAnim_ImGuiIntegration.gif" width="512px" alt="ImGui Integration"/><br><strong>ImGui Integration</strong>
 
 ## Contributing
 
