@@ -6,12 +6,17 @@ echo ========================================
 echo ImAnim Bootstrap Script
 echo ========================================
 
-REM Check if Sharpmake submodule exists
-if not exist "extern\Sharpmake" (
+REM Check if Sharpmake submodule exists and is initialized
+if not exist "extern\Sharpmake\Sharpmake.sln" (
     echo.
-    echo Sharpmake submodule not found!
-    echo Please run: git submodule update --init --recursive
-    exit /b 1
+    echo Sharpmake submodule not initialized!
+    echo Initializing submodules...
+    git submodule update --init --recursive
+    if %ERRORLEVEL% NEQ 0 (
+        echo Error: Failed to initialize submodules
+        echo Please run manually: git submodule update --init --recursive
+        exit /b 1
+    )
 )
 
 REM Build Sharpmake
