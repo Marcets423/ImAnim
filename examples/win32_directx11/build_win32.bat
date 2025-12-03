@@ -5,8 +5,7 @@
 setlocal
 
 set IMGUI_DIR=..\..\extern\imgui
-set IMANIM_DIR=..\..\src
-set DEMO_DIR=..\..\demo
+set IMANIM_DIR=..\..
 
 cl /nologo /Zi /MD ^
     /I%IMGUI_DIR% /I%IMGUI_DIR%\backends /I%IMANIM_DIR% ^
@@ -18,7 +17,7 @@ cl /nologo /Zi /MD ^
     %IMGUI_DIR%\backends\imgui_impl_win32.cpp ^
     %IMGUI_DIR%\backends\imgui_impl_dx11.cpp ^
     %IMANIM_DIR%\im_anim.cpp ^
-    %DEMO_DIR%\demo_im_anim.cpp ^
+    %IMANIM_DIR%\demo_im_anim.cpp ^
     /Fe:im_anim_example.exe ^
     /link d3d11.lib d3dcompiler.lib
 

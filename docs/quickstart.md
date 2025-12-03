@@ -7,8 +7,8 @@ Get up and running with ImAnim in minutes.
 ImAnim is a single header+source pair. Add to your project:
 
 ```
-src/im_anim.h
-src/im_anim.cpp
+im_anim.h
+im_anim.cpp
 ```
 
 Requires Dear ImGui headers in your include path.

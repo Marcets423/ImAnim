@@ -1,8 +1,13 @@
 // demo_im_anim.cpp — Demo window showcasing im_anim.h features.
 // Author: Soufiane KHIAT
 // License: MIT
-// Integrate by calling ImAnimDemoWindow() inside your Dear ImGui frame.
-// Inspired by Dear ImGui's demo structure.
+//
+// OPTIONAL: This file is not required to use ImAnim.
+// It provides a demo window to showcase all features.
+// Include it in your project only if you want the demo.
+//
+// Usage: Call ImAnimDemoWindow() inside your Dear ImGui frame.
+// Inspired by Dear ImGui's imgui_demo.cpp structure.
 
 #include "imgui.h"
 #include "im_anim.h"

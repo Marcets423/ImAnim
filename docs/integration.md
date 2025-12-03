@@ -7,8 +7,8 @@ This guide explains how to integrate ImAnim into your existing Dear ImGui projec
 Copy these two files to your project:
 
 ```
-src/im_anim.h
-src/im_anim.cpp
+im_anim.h
+im_anim.cpp
 ```
 
 Ensure Dear ImGui headers are in your include path. That's it - no other dependencies.

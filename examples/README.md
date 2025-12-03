@@ -1,43 +1,44 @@
-# ImAnim Simple Examples
+# ImAnim Examples
 
 Standalone examples demonstrating ImAnim integration with Dear ImGui.
 
-These examples are modeled after [imgui/examples](https://github.com/ocornut/imgui/tree/master/examples) - each is a complete, buildable application that shows the full ImAnim easing demo (`ShowEasingDemo()` from `demo/demo_im_anim.cpp`).
+These examples are modeled after [imgui/examples](https://github.com/ocornut/imgui/tree/master/examples) - each is a complete, buildable application that shows the full ImAnim demo (`ImAnimDemoWindow()` from `demo_im_anim.cpp`).
 
 ## Available Examples
 
 | Folder | Platform | Graphics | Description |
 |--------|----------|----------|-------------|
-| `example_glfw_opengl3/` | GLFW | OpenGL 3 | Cross-platform (Windows, macOS, Linux) |
-| `example_sdl2_opengl3/` | SDL2 | OpenGL 3 | Cross-platform (Windows, macOS, Linux) |
-| `example_win32_directx11/` | Win32 | DirectX 11 | Windows native |
+| `glfw_opengl3/` | GLFW | OpenGL 3 | Cross-platform (Windows, macOS, Linux) |
+| `sdl2_opengl3/` | SDL2 | OpenGL 3 | Cross-platform (Windows, macOS, Linux) |
+| `win32_directx11/` | Win32 | DirectX 11 | Windows native |
+| `implatform/` | ImPlatform | Multiple | Uses ImPlatform abstraction (Win32/GLFW/SDL + DX/GL/Vulkan) |
 
 ## Building
 
 Each example includes:
 - `main.cpp` - Minimal main loop with ImAnim setup
-- `Makefile` - For Linux/macOS
+- `Makefile` - For Linux/macOS (GLFW/SDL2 examples)
 - `build_win32.bat` - For Windows (requires Visual Studio)
 
-The build links against `demo/demo_im_anim.cpp` which provides `ShowEasingDemo()`.
+The build links against `demo_im_anim.cpp` (in repository root) which provides `ImAnimDemoWindow()`.
 
 ### Prerequisites
 
 1. **ImGui source files** - Included via `extern/imgui/`
 
-2. **ImAnim source files** - Included via `src/`
+2. **ImAnim source files** - In repository root (`im_anim.h`, `im_anim.cpp`)
 
-3. **Platform library** - GLFW, SDL2, or Windows SDK
+3. **Platform library** - GLFW, SDL2, ImPlatform, or Windows SDK
 
 ### Quick Start (GLFW + OpenGL3)
 
 ```bash
 # Linux/macOS
-cd example_glfw_opengl3
+cd glfw_opengl3
 make
 
 # Windows (from Visual Studio Developer Command Prompt)
-cd example_glfw_opengl3
+cd glfw_opengl3
 build_win32.bat
 ```
 
@@ -45,17 +46,27 @@ build_win32.bat
 
 ```bash
 # Linux/macOS
-cd example_sdl2_opengl3
+cd sdl2_opengl3
 make
 
 # Windows
-cd example_sdl2_opengl3
+cd sdl2_opengl3
 build_win32.bat
+```
+
+### Quick Start (ImPlatform)
+
+The ImPlatform example uses the Sharpmake-based build system:
+
+```bash
+# From repository root
+bootstrap.bat
+# Open ImAnim_vs2022_win64.sln
 ```
 
 ## What Each Example Shows
 
-Each example runs `ImAnimDemoWindow()` from `demo/demo_im_anim.cpp`, showcasing all ImAnim features in one window.
+Each example runs `ImAnimDemoWindow()` from `demo_im_anim.cpp`, showcasing all ImAnim features in one window.
 
 ## Code Structure
 

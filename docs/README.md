@@ -51,7 +51,7 @@ float scale = iam_tween_float(
 
 ## Quick Integration
 
-**Step 1:** Copy `src/im_anim.h` and `src/im_anim.cpp` to your project.
+**Step 1:** Copy `im_anim.h` and `im_anim.cpp` to your project.
 
 **Step 2:** Add two lines after `ImGui::NewFrame()`:
 
@@ -80,7 +80,7 @@ float scale = iam_tween_float(
 
 That's it. No build system changes, no external dependencies.
 
-See [simple_examples/](simple_examples/) for complete, buildable examples using GLFW, SDL2, or Win32.
+See [examples/](examples/) for complete, buildable examples using GLFW, SDL2, Win32, or ImPlatform.
 
 ## Documentation
 
@@ -104,13 +104,15 @@ Full documentation in the [`docs/`](docs/) folder:
 
 ## Demo
 
-The `demo/` folder contains a comprehensive demo showcasing all features:
+The `demo_im_anim.cpp` file (optional) provides a comprehensive demo showcasing all features:
 
 - Interactive easing curve visualizer
 - Cubic bezier editor
 - Spring physics playground
 - All animation types with live controls
 - Performance benchmarks
+
+Call `ImAnimDemoWindow()` in your ImGui frame to display the demo window.
 
 ## Contributing
 

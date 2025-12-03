@@ -10,7 +10,10 @@ namespace ImAnim
         public ImAnimDemoProject()
         {
             Name = "ImAnimDemo";
-            SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "demo");
+            SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "examples", "implatform");
+
+            // Add demo_im_anim.cpp from root
+            SourceFiles.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "demo_im_anim.cpp"));
 
             // Add ImPlatform source files
             SourceFiles.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "extern", "ImPlatform", "ImPlatform", "ImPlatform.h"));
@@ -44,8 +47,8 @@ namespace ImAnim
 
             conf.Output = Configuration.OutputType.Exe;
 
-            // Add src include path for im_anim.h
-            conf.IncludePaths.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "src"));
+            // Add root include path for im_anim.h and demo_im_anim.cpp
+            conf.IncludePaths.Add("[project.SharpmakeCsPath]/..");
 
             // Add imgui include paths
             conf.IncludePaths.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "extern", "imgui"));

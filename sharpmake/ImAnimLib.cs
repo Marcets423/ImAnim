@@ -10,7 +10,9 @@ namespace ImAnim
         public ImAnimLibProject()
         {
             Name = "ImAnimLib";
-            SourceRootPath = Path.Combine("[project.SharpmakeCsPath]", "..", "src");
+            SourceRootPath = "[project.SharpmakeCsPath]/..";
+            SourceFilesExtensions.Add(".h", ".cpp");
+            SourceFilesExcludeRegex.Add(@"demo_im_anim\.cpp$");
         }
 
         public override void ConfigureAll(Configuration conf, ImAnimTarget target)
@@ -23,7 +25,7 @@ namespace ImAnim
             conf.IncludePaths.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "extern", "imgui"));
 
             // Export include path for dependents
-            conf.IncludePrivatePaths.Add(Path.Combine("[project.SharpmakeCsPath]", "..", "src"));
+            conf.IncludePrivatePaths.Add("[project.SharpmakeCsPath]/..");
         }
     }
 }
