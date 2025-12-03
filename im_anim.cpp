@@ -30,6 +30,15 @@ static FontType* GetBakedFont(ImFont* font, float font_size) {
 	return font;
 #endif
 }
+
+// Two-pi constant
+#ifndef TWO_PI
+static const float TWO_PI = 6.28318530f;
+#endif // !TWO_PI
+#ifndef PI
+static const float PI = 3.14159265f;
+#endif // !PI
+
 // ----------------------------------------------------
 // Internal: parameterized easing LUT cache (ImPool)
 // ----------------------------------------------------
@@ -86,7 +95,6 @@ struct ease_lut_pool {
 		if (t == 0.f || t == 1.f) return t;
 		float A = (a <= 0.f ? ELASTIC_AMPLITUDE : a);
 		float P = (p <= 0.f ? ELASTIC_PERIOD : p);
-		static const float TWO_PI = 2.0f * 3.1415926535f;
 		float s = (P / TWO_PI) * asinf(1.0f / A);
 		return -(A * ImPow(2.f, 10.f * (t - 1.f)) * ImSin((t - 1.f - s) * TWO_PI / P));
 	}
@@ -6618,13 +6626,6 @@ iam_transform iam_transform::inverse() const {
 	return result;
 }
 
-// Two-pi constant
-#ifndef TWO_PI
-static const float TWO_PI = 6.28318530f;
-#endif // !TWO_PI
-#ifndef PI
-static const float PI = 3.14159265f;
-#endif // !PI
 
 
 // Calculate rotation difference based on mode
