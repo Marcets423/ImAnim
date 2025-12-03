@@ -14,7 +14,7 @@ namespace ImAnim
             Name = "ImAnim";
             IsFileNameToLower = false;
 
-            // Add all backend combinations
+            // Add all example configurations
             AddTargets(CommonProject.CreateTargets());
         }
 
@@ -24,9 +24,9 @@ namespace ImAnim
             conf.SolutionFileName = "[solution.Name]_[target.DevEnv]_[target.Platform]";
             conf.SolutionPath = @"[solution.SharpmakeCsPath]\..";
 
-            // Name the solution configuration to include backend (e.g., "Debug_Win32_DX11")
-            string backendName = target.GetBackendName();
-            conf.Name = $"[target.Optimization]_{backendName}";
+            // Name the solution configuration to include example type
+            string configName = target.GetConfigName();
+            conf.Name = $"[target.Optimization]_{configName}";
 
             // Add projects
             conf.AddProject<ImAnimLibProject>(target);

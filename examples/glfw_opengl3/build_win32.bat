@@ -4,7 +4,7 @@
 @echo off
 setlocal
 
-set IMGUI_DIR=..\..\extern\imgui
+set IMGUI_DIR=..\extern\imgui
 set IMANIM_DIR=..\..
 set GLFW_DIR=%IMGUI_DIR%\examples\libs\glfw
 

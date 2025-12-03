@@ -6,17 +6,23 @@ echo ========================================
 echo ImAnim Bootstrap Script
 echo ========================================
 
+REM Save the examples directory
+set EXAMPLES_DIR=%CD%
+
 REM Check if Sharpmake submodule exists and is initialized
 if not exist "extern\Sharpmake\Sharpmake.sln" (
     echo.
     echo Sharpmake submodule not initialized!
     echo Initializing submodules...
+    cd ..
     git submodule update --init --recursive
     if %ERRORLEVEL% NEQ 0 (
         echo Error: Failed to initialize submodules
         echo Please run manually: git submodule update --init --recursive
+        cd "%EXAMPLES_DIR%"
         exit /b 1
     )
+    cd "%EXAMPLES_DIR%"
 )
 
 REM Build Sharpmake
@@ -29,7 +35,7 @@ REM Check for dotnet
 where dotnet >nul 2>&1
 if %ERRORLEVEL% NEQ 0 (
     echo Error: .NET SDK not found. Please install .NET 6.0 or later from https://dotnet.microsoft.com/download
-    cd ..\..
+    cd "%EXAMPLES_DIR%"
     exit /b 1
 )
 
@@ -38,11 +44,11 @@ echo Building Sharpmake.Application...
 dotnet build Sharpmake.Application\Sharpmake.Application.csproj -c Release
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Failed to build Sharpmake
-    cd ..\..
+    cd "%EXAMPLES_DIR%"
     exit /b 1
 )
 
-cd ..\..
+cd "%EXAMPLES_DIR%"
 
 REM Copy Sharpmake artifacts to tools/sharpmake
 echo.

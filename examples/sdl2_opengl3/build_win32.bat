@@ -4,7 +4,7 @@
 @echo off
 setlocal
 
-set IMGUI_DIR=..\..\extern\imgui
+set IMGUI_DIR=..\extern\imgui
 set IMANIM_DIR=..\..
 
 @REM Adjust SDL2 path as needed

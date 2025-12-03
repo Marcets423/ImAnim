@@ -4,7 +4,7 @@
 @echo off
 setlocal
 
-set IMGUI_DIR=..\..\extern\imgui
+set IMGUI_DIR=..\extern\imgui
 set IMANIM_DIR=..\..
 
 cl /nologo /Zi /MD ^

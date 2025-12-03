@@ -2,7 +2,7 @@
 # Cross-platform Makefile for Linux and macOS
 
 EXE = im_anim_example
-IMGUI_DIR = ../../extern/imgui
+IMGUI_DIR = ../extern/imgui
 IMANIM_DIR = ../..
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp

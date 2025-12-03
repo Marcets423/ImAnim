@@ -1,9 +1,9 @@
-[submodule "extern/Sharpmake"]
-	path = extern/Sharpmake
+[submodule "examples/extern/Sharpmake"]
+	path = examples/extern/Sharpmake
 	url = https://github.com/ubisoft/Sharpmake.git
-[submodule "extern/imgui"]
-	path = extern/imgui
+[submodule "examples/extern/imgui"]
+	path = examples/extern/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "extern/ImPlatform"]
-	path = extern/ImPlatform
+[submodule "examples/extern/ImPlatform"]
+	path = examples/extern/ImPlatform
 	url = https://github.com/soufianekhiat/ImPlatform.git

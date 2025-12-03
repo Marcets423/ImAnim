@@ -24,7 +24,7 @@ The build links against `demo_im_anim.cpp` (in repository root) which provides `
 
 ### Prerequisites
 
-1. **ImGui source files** - Included via `extern/imgui/`
+1. **ImGui source files** - Included via `examples/extern/imgui/`
 
 2. **ImAnim source files** - In repository root (`im_anim.h`, `im_anim.cpp`)
 
@@ -54,15 +54,18 @@ cd sdl2_opengl3
 build_win32.bat
 ```
 
-### Quick Start (ImPlatform)
+### Quick Start (ImPlatform / Sharpmake)
 
-The ImPlatform example uses the Sharpmake-based build system:
+The Sharpmake-based build system generates a Visual Studio solution with all 4 configurations:
 
 ```bash
-# From repository root
+# From examples folder
+cd examples
 bootstrap.bat
 # Open ImAnim_vs2022_win64.sln
 ```
+
+The solution includes configurations for GLFW+OpenGL3, SDL2+OpenGL3, Win32+DX11, and ImPlatform.
 
 ## What Each Example Shows
 
