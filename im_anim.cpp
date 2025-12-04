@@ -11,6 +11,34 @@
 #include <windows.h>
 #endif
 
+#define IMGUI_VERSION_BAKEDFONT 19200 //The version number where ImFontBaked and global ImGuiStoragePair were introduced
+#if defined(IMGUI_VERSION_NUM) && IMGUI_VERSION_NUM >= IMGUI_VERSION_BAKEDFONT
+	// ImGuiStoragePair is in the global namespace since ImGui version 1.92.0 (19200)
+#define IMGUI_STORAGE_PAIR ImGuiStoragePair
+typedef ImFontBaked FontType;
+#else
+	// ImGuiStoragePair is nested in ImGuiStorage in Pre-1.92.0 versions
+#define IMGUI_STORAGE_PAIR ImGuiStorage::ImGuiStoragePair
+typedef ImFont FontType;
+#endif
+
+static FontType* GetBakedFont(ImFont* font, float font_size) {
+#if defined(IMGUI_VERSION_NUM) && IMGUI_VERSION_NUM > IMGUI_VERSION_BAKEDFONT
+	return font->GetFontBaked(font_size);
+#else
+	(void)font_size; // suppress unused warning
+	return font;
+#endif
+}
+
+// Two-pi constant
+#ifndef TWO_PI
+static const float TWO_PI = 6.28318530f;
+#endif // !TWO_PI
+#ifndef PI
+static const float PI = 3.14159265f;
+#endif // !PI
+
 // ----------------------------------------------------
 // Internal: parameterized easing LUT cache (ImPool)
 // ----------------------------------------------------
@@ -67,7 +95,6 @@ struct ease_lut_pool {
 		if (t == 0.f || t == 1.f) return t;
 		float A = (a <= 0.f ? ELASTIC_AMPLITUDE : a);
 		float P = (p <= 0.f ? ELASTIC_PERIOD : p);
-		static const float TWO_PI = 2.0f * 3.1415926535f;
 		float s = (P / TWO_PI) * asinf(1.0f / A);
 		return -(A * ImPow(2.f, 10.f * (t - 1.f)) * ImSin((t - 1.f - s) * TWO_PI / P));
 	}
@@ -3470,6 +3497,7 @@ void iam_layer_begin(ImGuiID instance_id) {
 
 void iam_layer_add(iam_instance inst, float weight) {
 	using namespace iam_clip_detail;
+	
 	if (!inst.valid() || weight <= 0.0f) return;
 
 	iam_instance_data* src = find_instance(inst.id());
@@ -3479,7 +3507,7 @@ void iam_layer_add(iam_instance inst, float weight) {
 
 	// Accumulate float values
 	for (int i = 0; i < src->values_float.Data.Size; ++i) {
-		ImGuiStoragePair& p = src->values_float.Data[i];
+		IMGUI_STORAGE_PAIR& p = src->values_float.Data[i];
 		ImGuiID ch = p.key;
 		float val = *(float*)&p.val_i;
 		float acc = g_layer_state.acc_float.GetFloat(ch, 0.0f);
@@ -3490,7 +3518,7 @@ void iam_layer_add(iam_instance inst, float weight) {
 
 	// Accumulate int values
 	for (int i = 0; i < src->values_int.Data.Size; ++i) {
-		ImGuiStoragePair& p = src->values_int.Data[i];
+		IMGUI_STORAGE_PAIR& p = src->values_int.Data[i];
 		ImGuiID ch = p.key;
 		int val = p.val_i;
 		float acc = (float)g_layer_state.acc_int.GetInt(ch, 0);
@@ -3557,7 +3585,7 @@ void iam_layer_end(ImGuiID instance_id) {
 
 	// Floats
 	for (int i = 0; i < g_layer_state.acc_float.Data.Size; ++i) {
-		ImGuiStoragePair& p = g_layer_state.acc_float.Data[i];
+		IMGUI_STORAGE_PAIR& p = g_layer_state.acc_float.Data[i];
 		float w = g_layer_state.weight_float.GetFloat(p.key, 1.0f);
 		float val = *(float*)&p.val_i / (w > 0.0f ? w : 1.0f);
 		target->blended_float.SetFloat(p.key, val);
@@ -3565,7 +3593,7 @@ void iam_layer_end(ImGuiID instance_id) {
 
 	// Ints
 	for (int i = 0; i < g_layer_state.acc_int.Data.Size; ++i) {
-		ImGuiStoragePair& p = g_layer_state.acc_int.Data[i];
+		IMGUI_STORAGE_PAIR& p = g_layer_state.acc_int.Data[i];
 		float w = g_layer_state.weight_int.GetFloat(p.key, 1.0f);
 		int val = (int)((float)p.val_i / (w > 0.0f ? w : 1.0f));
 		target->blended_int.SetInt(p.key, val);
@@ -5290,7 +5318,7 @@ void iam_make_glyph_quad(ImVec2* quad, ImVec2 pos, float angle_rad, float glyph_
 float iam_text_path_width(const char* text, iam_text_path_opts const& opts) {
 	ImFont* font = opts.font ? opts.font : ImGui::GetFont();
 	float font_size = ImGui::GetFontSize() * opts.font_scale;
-	ImFontBaked* baked = font->GetFontBaked(font_size);
+	FontType* baked = GetBakedFont(font,font_size);
 	if (!baked) return 0.0f;
 
 	float total_width = 0;
@@ -5300,7 +5328,7 @@ float iam_text_path_width(const char* text, iam_text_path_opts const& opts) {
 		int char_len = ImTextCharFromUtf8(&c, p, nullptr);
 		if (char_len == 0) break;
 
-		ImFontGlyph* glyph = baked->FindGlyph((ImWchar)c);
+		const ImFontGlyph* glyph = baked->FindGlyph((ImWchar)c);
 		if (glyph) {
 			total_width += glyph->AdvanceX;
 			total_width += opts.letter_spacing;
@@ -5326,7 +5354,7 @@ void iam_text_path(ImGuiID path_id, const char* text, iam_text_path_opts const& 
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImFont* font = opts.font ? opts.font : ImGui::GetFont();
 	float font_size = ImGui::GetFontSize() * opts.font_scale;
-	ImFontBaked* baked = font->GetFontBaked(font_size);
+	FontType* baked = GetBakedFont(font, font_size);;
 	if (!baked) return;
 
 	// Calculate text width and starting offset
@@ -5354,7 +5382,7 @@ void iam_text_path(ImGuiID path_id, const char* text, iam_text_path_opts const& 
 		int char_len = ImTextCharFromUtf8(&c, p, nullptr);
 		if (char_len == 0) break;
 
-		ImFontGlyph* glyph = baked->FindGlyph((ImWchar)c);
+		const ImFontGlyph* glyph = baked->FindGlyph((ImWchar)c);
 		if (!glyph) {
 			p += char_len;
 			continue;
@@ -5440,7 +5468,7 @@ void iam_text_path_animated(ImGuiID path_id, const char* text, float progress, i
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImFont* font = opts.font ? opts.font : ImGui::GetFont();
 	float font_size = ImGui::GetFontSize() * opts.font_scale;
-	ImFontBaked* baked = font->GetFontBaked(font_size);
+	FontType* baked = GetBakedFont(font, font_size);
 	if (!baked) return;
 
 	// Calculate text width and starting offset
@@ -5485,7 +5513,7 @@ void iam_text_path_animated(ImGuiID path_id, const char* text, float progress, i
 		int char_len = ImTextCharFromUtf8(&c, p, nullptr);
 		if (char_len == 0) break;
 
-		ImFontGlyph* glyph = baked->FindGlyph((ImWchar)c);
+		const ImFontGlyph* glyph = baked->FindGlyph((ImWchar)c);
 		if (!glyph) {
 			p += char_len;
 			char_idx++;
@@ -5562,7 +5590,7 @@ void iam_text_path_animated(ImGuiID path_id, const char* text, float progress, i
 float iam_text_stagger_width(const char* text, iam_text_stagger_opts const& opts) {
 	ImFont* font = opts.font ? opts.font : ImGui::GetFont();
 	float font_size = ImGui::GetFontSize() * opts.font_scale;
-	ImFontBaked* baked = font->GetFontBaked(font_size);
+	FontType* baked = GetBakedFont(font, font_size);
 
 	float width = 0.0f;
 	const char* p = text;
@@ -5608,7 +5636,7 @@ void iam_text_stagger(ImGuiID id, const char* text, float progress, iam_text_sta
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImFont* font = opts.font ? opts.font : ImGui::GetFont();
 	float font_size = ImGui::GetFontSize() * opts.font_scale;
-	ImFontBaked* baked = font->GetFontBaked(font_size);
+	FontType* baked = GetBakedFont(font, font_size);
 
 	// Count characters
 	int char_count = 0;
@@ -6598,9 +6626,7 @@ iam_transform iam_transform::inverse() const {
 	return result;
 }
 
-// Two-pi constant
-static const float TWO_PI = 6.28318530f;
-static const float PI = 3.14159265f;
+
 
 // Calculate rotation difference based on mode
 static float angle_diff_mode(float from, float to, int mode) {
@@ -7145,3 +7171,5 @@ void iam_drag_cancel(ImGuiID id) {
 		state->is_snapping = false;
 	}
 }
+
+#undef IMGUI_STORAGE_PAIR
