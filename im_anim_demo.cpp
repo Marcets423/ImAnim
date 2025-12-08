@@ -5103,11 +5103,8 @@ static void ShowScrollDemo()
 	ImGui::Separator();
 
 	// Scrollable child window
-#ifdef IM_ANIM_COMPAT_1_92_OR_NEWER
 	ImGui::BeginChild("ScrollDemoChild", ImVec2(0, 300), ImGuiChildFlags_Borders);
-#else
-	ImGui::BeginChild("ScrollDemoChild", ImVec2(0, 300), ImGuiChildFlags_Border);
-#endif
+
 
 	// Apply scroll commands inside the child window
 	if (scroll_top) {
